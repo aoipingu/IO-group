@@ -1,29 +1,47 @@
+import csv
 import numpy as np
-import scipy
-
-
-source = np.array([1,2,3], dtype = int)
-
-
-class Materials_Table():
-     pass
-
 
 class Materials:
-    #Name = str, All other properties should be floats?
-    def __init__(self, name, emission, absorption, scattering):
+    def __init__(self, name, n1, n2, prob_nano, absorption1, scattering1, absorption2, scattering2, hsv = []):
         self.name = name
-        self.emission = emission
-        self.absorption = absorption
-        self.scattering = scattering
-
-
-    def display(self):
-        print( f'{self.name} has values emission: {self.emission}   absorption: {self.absorption}   scattering: {self.scattering}')
+        self.n1 = n1
+        self.n2 = n2
+        self.prob_nano = prob_nano
+        self.absorption1 = absorption1
+        self.scattering1 = scattering1
+        self.absorption2 = absorption2
+        self.scattering2 = scattering2
+        self.hsv = hsv
     
+    def data_to_list (data):
+        #Ensures that Air is located in the top and has a tag of zero.
+        data = np.array(data)
+        a = int(np.where(data[1:,0] == "Air")[0])
+        temp = data[a + 1].copy()
+        data[a + 1] = data[1]
+        data[1] = temp
+        data = data.tolist()
 
-Mat_0 = Materials('Skin', 5.0, 1.11, 3.14)
+        #Saves all material classes into a comibned list called "mat_list". This collates values of H, S, and V as a single list and helps in tagging.
+        mat_list = []
+        for i in data[1:]:
+            i[0] = Materials(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], [i[8], i[9], i[10]]) #May change into int or floats? Currently as strings.
+            mat_list.append(i[0])
+        
+        #Converts list into a dict called "mat_dict". The key is the tag.
+        mat_dict = {}
+        for i in range(len(mat_list)):
+            mat_dict[i] = mat_list[i]
 
+        return mat_dict
 
+#Copies data from "data.csv" and converts into list/
+with open("data.csv", newline='') as csvfile: # Probable change the name of the csv.
+    data = list(csv.reader(csvfile))
 
+#mat_dict is the master dictionary with the tag as the key and the material class as the value.
+mat_dict = Materials.data_to_list(data)
 
+#Tests based on csv with pseudo values. 
+print(mat_dict)
+print(mat_dict[1].hsv)
