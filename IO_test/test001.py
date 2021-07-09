@@ -31,7 +31,7 @@ class Materials:
     Methods
     -------
     data_to_list(data):
-        converts the csv file into a single list ...idk...
+        reorder ____ so that the 
     
     
     
