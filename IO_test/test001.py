@@ -2,8 +2,42 @@ import csv
 import numpy as np
 
 class Materials:
+    '''
+    A class used to store material coefficients for use in the Simulation later
+    
+    ...Elaboration...
+    
+    Attributes
+    ----------
+    name : str
+        Either 'Air' 'Skin' 'Duct' 'Muscle' 'Fat' or 'Bone'
+    n1 : int
+        represents the refractive index for a light beam entering from Air
+    n2 : int
+        represents the refractive index for a light beam exiting the material into ..?..
+    prob_nano : int
+        the probability of ..?..
+    absorption1 : int
+        the ratio of intensities of the exiting light beam to the entering light beam
+    scattering1 : int
+        the amount of scattering ...idfk...
+    absorption2 : int
+        the amount of absorption ...idfk...
+    scattering2 : int
+        the amount of scattering2 ...idfk...
+    hsv : list
+        hue, saturation and visibility for the material when viewed with a SEM ...IDFK...
+    
+    Methods
+    -------
+    data_to_list(data):
+        converts the csv file into a single list ...idk...
+    
+    
+    
+    '''
     def __init__(self, name, n1, n2, prob_nano, absorption1, scattering1, absorption2, scattering2, hsv = []):
-        self.name = name
+        self.name = name.lower() # just so that Air, air, AIR come out as the same 
         self.n1 = n1
         self.n2 = n2
         self.prob_nano = prob_nano
@@ -14,7 +48,7 @@ class Materials:
         self.hsv = hsv
     
     def data_to_list (data):
-        #Ensures that Air is located in the top and has a tag of zero.
+        ''' Ensures that Air is located in the top and has a tag of zero. This function receives'''
         data = np.array(data)
         a = int(np.where(data[1:,0] == "Air")[0])
         temp = data[a + 1].copy()
