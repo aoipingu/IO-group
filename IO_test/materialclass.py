@@ -3,7 +3,7 @@ import numpy as np
 
 class Materials:
     '''
-    A class used to store material properties for use in the Simulation later. The class also contains the "data_to_dict" fucntion to pack the material properties into a dictionary, where the keys and the values are the material tags and material objects repectively.
+    A class used to store material properties for use in the Simulation later. The class also contains the "data_to_dict" fucntion to pack the material properties into a dictionary, where the keys and the values are the material tags and material objects repectively. Takes data from "material.csv".
     
     Attributes
     ----------
@@ -35,8 +35,6 @@ class Materials:
     '''
 
     def __init__(self, name, n1, n2, prob_nano, absorption1, scattering1, absorption2, scattering2, hsv = []):
-        # self.name = name.lower()
-        #Removing above line as it is not really needed. We can always provide manual of sorts as to how to fill in the csv. Additionally, the same would have to be done with line 54.
         self.name = name
         self.n1 = n1
         self.n2 = n2
@@ -73,7 +71,7 @@ class Materials:
 ### Main Body
 
 #Copies data from "data.csv" and converts into list/
-with open("data.csv", newline='') as csvfile: # Probably change the name of the csv.
+with open("material.csv", newline='') as csvfile: # Probably change the name of the csv.
     data = list(csv.reader(csvfile))
 
 #mat_dict is the master dictionary with the tag as the key and the material class as the value.
@@ -81,5 +79,5 @@ mat_dict = Materials.data_to_dict(data)
 
 #Tests based on csv with pseudo values.
 print(mat_dict)
-print(mat_dict[1].prob_nano)
+print(mat_dict[1].hsv)
 print(Materials.__doc__)
