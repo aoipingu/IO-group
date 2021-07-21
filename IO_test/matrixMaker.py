@@ -44,7 +44,7 @@ def make_simple_matrix(folder_path):
 
 def assign_tags(sMatrix, materials):
     """takes the HSV colour values from the simple matrix and a dictionary of materials objects to then return a 3D Matrix"""
-    tagMatrix = np.ones((np.size(sMatrix,0),np.size(sMatrix,1),np.size(sMatrix,2)), dtype= int) #3d matrix to store the tissue type tags
+    tagMatrix = np.zeros((np.size(sMatrix,0),np.size(sMatrix,1),np.size(sMatrix,2),2), dtype= float) #3d matrix to store the tissue type tags with a 4th dimension for luminosity
     for i in range(0,np.size(sMatrix,0)):
         for j in range(0,np.size(sMatrix,1)):
             for k in range(0,np.size(sMatrix,2)):
@@ -54,7 +54,7 @@ def assign_tags(sMatrix, materials):
                     if (sMatrix[i,j,k,0] == materials[tag].hsv[0]) and (sMatrix[i,j,k,1] == materials[tag].hsv[1]) and (sMatrix[i,j,k,2] == materials[tag].hsv[2]):
                         #print(f"[{sMatrix[i,j,k,0]},{sMatrix[i,j,k,1]},{sMatrix[i,j,k,2]}] = [{materials[tag].hsv[0]},{materials[tag].hsv[1]},{materials[tag].hsv[2]}]")
                         #print (f"decided {tag} for ({i},{j},{k})")
-                        tagMatrix[i,j,k] = tag
+                        tagMatrix[i,j,k,0] = tag
 
     return tagMatrix
                         
@@ -66,8 +66,9 @@ with open("testing_materials.csv", newline='') as csvfile: # Probably change the
 mat_dict = materialclass.Materials.data_to_dict(data)
 for i in mat_dict:
     print(f"colour {mat_dict[i].name} with tag {i}")
-simpleMatrix = make_simple_matrix("testing_images/basic_colours")
+simpleMatrix = make_simple_matrix("testing_images/basic_colours_small")
 complexMatrix = assign_tags(simpleMatrix, mat_dict)
 np.set_printoptions(threshold=sys.maxsize)
 # print(simpleMatrix[:,:,0])
-#print(complexMatrix[:,:,0])
+print(complexMatrix[:,:,0,0])
+print(complexMatrix[:,:,0,1])
