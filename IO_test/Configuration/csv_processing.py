@@ -8,7 +8,7 @@ with open('configuration.csv','r') as config_file:
 # turns csv into list of lists e.g.[['Cancer Depth', '35']...]
     configuration = list(csv.reader(config_file))  
 
-configuration = dict([a, float(x)] for a,x in configuration) 
+configuration = dict([a, int(x)] for a,x in configuration) 
 print (configuration)
 # converts information stored in configuration.csv into dictionary 
 # with keys as str and values as float {'Cancer Depth' : 35.0, ...}
