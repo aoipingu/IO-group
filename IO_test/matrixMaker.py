@@ -42,17 +42,15 @@ def make_simple_matrix(folder_path):
                     simpleMatrix[i,j,layer] = HSV_values
     return simpleMatrix
 
-def assign_tags(sMatrix, materials):
-    """takes the HSV colour values from the simple matrix and a dictionary of materials objects to then return a 3D Matrix"""
+def assign_tags(sMatrix, materials, tolerance = 0):
+    """takes the HSV colour values from the simple matrix and a dictionary of materials objects to then return a 3D Matrix. Needs the colour tolerances from the config file"""
     tagMatrix = np.zeros((np.size(sMatrix,0),np.size(sMatrix,1),np.size(sMatrix,2),2), dtype= float) #3d matrix to store the tissue type tags with a 4th dimension for luminosity
     for i in range(0,np.size(sMatrix,0)):
         for j in range(0,np.size(sMatrix,1)):
             for k in range(0,np.size(sMatrix,2)):
                 for tag in materials:
-                    #print(sMatrix[i,j,k])
-                    #print(materials[tag].hsv)
-                    if (sMatrix[i,j,k,0] == materials[tag].hsv[0]) and (sMatrix[i,j,k,1] == materials[tag].hsv[1]) and (sMatrix[i,j,k,2] == materials[tag].hsv[2]):
-                        #print(f"[{sMatrix[i,j,k,0]},{sMatrix[i,j,k,1]},{sMatrix[i,j,k,2]}] = [{materials[tag].hsv[0]},{materials[tag].hsv[1]},{materials[tag].hsv[2]}]")
+                    materialHSV= np.array(materials[tag].hsv)
+                    if cv.inRange(sMatrix[i,j,k,:],materialHSV-tolerance,materialHSV+tolerance)[0]==255:#the inRange function is meant to work for making masks and so it returs [255] if True
                         #print (f"decided {tag} for ({i},{j},{k})")
                         tagMatrix[i,j,k,0] = tag
 
