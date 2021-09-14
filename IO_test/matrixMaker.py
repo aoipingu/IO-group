@@ -7,7 +7,7 @@ This script provides 2 functions:
     the 3D array of HSV values. It outputs a matrix with integer tissue tags and luminosity values for each voxel. For instance, for a matrix named M
     one can adress a tissue tag by doing M[x,y,z,0] and the luminosity with M[x,y,z,1]
     
-Authos: Carlos Barbero
+Author: Carlos Barbero
 """
 import cv2 as cv
 import numpy as np
