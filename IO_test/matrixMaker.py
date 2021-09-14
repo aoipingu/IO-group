@@ -1,10 +1,18 @@
+"""
+This script provides 2 functions:
+    make_simple_matrix: This function takes a folder with images named Layer0000,Layer0001... and makes a 3d array containing the H,S and V color
+    values of each position for later processing. The function will take the cropped images obtained from the Visual Human Project by another part
+    of the code.
+    assign_tags: This function uses data from a materials dictionary and from the config to assign a tissue type (or air) to the different voxels of
+    the 3D array of HSV values. It outputs a matrix with integer tissue tags and luminosity values for each voxel. For instance, for a matrix named M
+    one can adress a tissue tag by doing M[x,y,z,0] and the luminosity with M[x,y,z,1]
+"""
 import cv2 as cv
 import numpy as np
 import os.path
 import sys
 
 import csv
-
 from numpy.core.fromnumeric import size
 import materialclass
 
